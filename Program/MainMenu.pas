@@ -4,16 +4,25 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Vcl.ComCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Vcl.ComCtrls,
+  Data.DB, Vcl.Grids, Vcl.DBGrids;
 
 type
   TfrmMain = class(TForm)
-    tabCtrl: TTabControl;
-    grpbxMain: TGroupBox;
-    edtDBDirectory: TEdit;
-    btnBrowse: TButton;
-    lblDBDirectory: TLabel;
-    procedure tabCtrlChange(Sender: TObject);
+    PageControl1: TPageControl;
+    MainMenu: TTabSheet;
+    Enquiries: TTabSheet;
+    Label1: TLabel;
+    btnDbDirBrowse: TButton;
+    edtDbDir: TEdit;
+    Jobs: TTabSheet;
+    Archives: TTabSheet;
+    btnDbConnect: TButton;
+    odiagDbDir: TOpenDialog;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    DBGrid3: TDBGrid;
+    procedure btnDbDirBrowseClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -27,24 +36,16 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmMain.tabCtrlChange(Sender: TObject);
+procedure TfrmMain.btnDbDirBrowseClick(Sender: TObject);
 begin
-  if tabCtrl.TabIndex = 0 then
-  begin
-    grpbxMain.Show;
-  end
-  else if tabCtrl.TabIndex = 1 then
-  begin
-    grpbxMain.Hide;
-  end
-  else if tabCtrl.TabIndex = 2 then
-  begin
-    grpbxMain.Hide;
-  end
-  else if tabCtrl.TabIndex = 3 then
-  begin
-    grpbxMain.Hide;
-  end;
+  if odiagDbDir.execute then
+    begin
+      edtDbDir.Text := odiagDbDir.FileName;
+    end
+  else // cancelled by user
+    begin
+      MessageDlg('Database selection cancelled.',mtWarning,[mbOK], 0);
+    end;
 end;
 
 end.

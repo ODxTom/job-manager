@@ -1,0 +1,51 @@
+unit MainMenu;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TfrmMain = class(TForm)
+    PageControl1: TPageControl;
+    MainMenu: TTabSheet;
+    Enquiries: TTabSheet;
+    Label1: TLabel;
+    btnDbDirBrowse: TButton;
+    edtDbDir: TEdit;
+    Jobs: TTabSheet;
+    Archives: TTabSheet;
+    btnDbConnect: TButton;
+    odiagDbDir: TOpenDialog;
+    procedure btnDbDirBrowseClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMain: TfrmMain;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmMain.btnDbDirBrowseClick(Sender: TObject);
+var
+  cancelled : Integer;
+
+begin
+  if odiagDbDir.execute then
+    begin
+      edtDbDir.Text := odiagDbDir.FileName;
+    end
+  else // cancelled by user
+    begin
+      cancelled := MessageDlg('Custom dialog',mtCustom,[mbYes,mbAll,mbCancel], 0);
+      cancelled := MessageDlg('Database selection cancelled.',mtWarning,[mbOK], 0);
+    end;
+end;
+
+end.
