@@ -3,9 +3,10 @@ unit MainMenu;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Vcl.ComCtrls,
-  Data.DB, Vcl.Grids, Vcl.DBGrids;
+  Data.DB, Vcl.Grids, Vcl.DBGrids, Data.Win.ADODB;
 
 type
   TfrmMain = class(TForm)
@@ -22,7 +23,13 @@ type
     DBGrid1: TDBGrid;
     DBGrid2: TDBGrid;
     DBGrid3: TDBGrid;
+    Button1: TButton;
+    Button2: TButton;
+    ADOTable: TADOTable;
+    DataSource: TDataSource;
     procedure btnDbDirBrowseClick(Sender: TObject);
+    procedure btnDbConnectClick(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,21 +38,69 @@ type
 
 var
   frmMain: TfrmMain;
+  connectionstring: string;
 
 implementation
 
 {$R *.dfm}
 
+procedure TfrmMain.btnDbConnectClick(Sender: TObject);
+begin
+  if fileexists(edtDbDir.Text) then
+  begin
+    connectionstring := 'Provider=Microsoft.ACE.OLEDB.16.0;Data Source=' +
+      edtDbDir.Text + ';Persist Security Info=False';
+    ADOTable.Active := False;
+    ADOTable.connectionstring := connectionstring;
+    ADOTable.TableName := 'Enquiries';
+    ADOTable.Active := True;
+    Showmessage('Connected to databse');
+  end;
+
+end;
+
 procedure TfrmMain.btnDbDirBrowseClick(Sender: TObject);
 begin
   if odiagDbDir.execute then
-    begin
-      edtDbDir.Text := odiagDbDir.FileName;
-    end
+  begin
+    edtDbDir.Text := odiagDbDir.FileName;
+  end
   else // cancelled by user
-    begin
-      MessageDlg('Database selection cancelled.',mtWarning,[mbOK], 0);
-    end;
+  begin
+    MessageDlg('Database selection cancelled.', mtWarning, [mbOK], 0);
+  end;
+end;
+
+procedure TfrmMain.PageControl1Change(Sender: TObject);
+begin
+
+  case PageControl1.TabIndex of
+    0:
+      begin
+        frmMain.Height := 165;
+        frmMain.Width := 267;
+      end;
+
+    1:
+      begin
+        ADOTable.Active := False;
+        ADOTable.TableName := 'Enquiries';
+        ADOTable.Active := True;
+      end;
+    2:
+      begin
+        ADOTable.Active := False;
+        ADOTable.TableName := 'Jobs';
+        ADOTable.Active := True;
+      end;
+    3:
+      begin
+        ADOTable.Active := False;
+        ADOTable.TableName := 'Archive';
+        ADOTable.Active := True;
+      end;
+  end;
+
 end;
 
 end.

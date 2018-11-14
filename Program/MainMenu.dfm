@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Job Organiser'
-  ClientHeight = 136
-  ClientWidth = 257
+  ClientHeight = 126
+  ClientWidth = 251
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,26 +12,25 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   DesignSize = (
-    257
-    136)
+    251
+    126)
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl1: TPageControl
     Left = 0
     Top = -3
-    Width = 258
-    Height = 138
+    Width = 252
+    Height = 128
     ActivePage = MainMenu
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitWidth = 257
-    ExplicitHeight = 135
+    OnChange = PageControl1Change
+    ExplicitWidth = 359
+    ExplicitHeight = 138
     object MainMenu: TTabSheet
       Caption = 'Main Menu'
-      ExplicitLeft = 0
-      ExplicitTop = 28
-      ExplicitWidth = 350
-      ExplicitHeight = 107
+      ExplicitWidth = 351
+      ExplicitHeight = 110
       object Label1: TLabel
         Left = 17
         Top = 16
@@ -57,27 +56,29 @@ object frmMain: TfrmMain
       end
       object btnDbConnect: TButton
         Left = 106
-        Top = 72
+        Top = 64
         Width = 121
         Height = 25
         Caption = 'Connect to Database'
         TabOrder = 2
+        OnClick = btnDbConnectClick
       end
     end
     object Enquiries: TTabSheet
       Caption = 'Enquiries'
       ImageIndex = 1
-      ExplicitWidth = 249
-      ExplicitHeight = 107
+      ExplicitWidth = 351
+      ExplicitHeight = 110
       DesignSize = (
-        250
-        110)
+        244
+        100)
       object DBGrid1: TDBGrid
         Left = -4
         Top = 0
-        Width = 259
-        Height = 77
+        Width = 253
+        Height = 67
         Anchors = [akLeft, akTop, akRight, akBottom]
+        DataSource = DataSource
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
         TitleFont.Color = clWindowText
@@ -85,20 +86,42 @@ object frmMain: TfrmMain
         TitleFont.Name = 'Tahoma'
         TitleFont.Style = []
       end
+      object Button1: TButton
+        Left = 85
+        Top = 72
+        Width = 75
+        Height = 25
+        Anchors = [akRight, akBottom]
+        Caption = 'Accept'
+        TabOrder = 1
+        ExplicitLeft = 77
+        ExplicitTop = 82
+      end
+      object Button2: TButton
+        Left = 166
+        Top = 72
+        Width = 75
+        Height = 25
+        Anchors = [akRight, akBottom]
+        Caption = 'Decline'
+        TabOrder = 2
+        ExplicitLeft = 158
+        ExplicitTop = 82
+      end
     end
     object Jobs: TTabSheet
       Caption = 'Jobs'
       ImageIndex = 2
-      ExplicitWidth = 249
-      ExplicitHeight = 107
+      ExplicitWidth = 351
+      ExplicitHeight = 110
       DesignSize = (
-        250
-        110)
+        244
+        100)
       object DBGrid2: TDBGrid
         Left = -4
         Top = 0
-        Width = 259
-        Height = 77
+        Width = 253
+        Height = 67
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
@@ -111,16 +134,16 @@ object frmMain: TfrmMain
     object Archives: TTabSheet
       Caption = 'Archives'
       ImageIndex = 3
-      ExplicitWidth = 249
-      ExplicitHeight = 107
+      ExplicitWidth = 351
+      ExplicitHeight = 110
       DesignSize = (
-        250
-        110)
+        244
+        100)
       object DBGrid3: TDBGrid
         Left = -4
         Top = 0
-        Width = 259
-        Height = 77
+        Width = 253
+        Height = 67
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
         TitleFont.Charset = DEFAULT_CHARSET
@@ -132,7 +155,16 @@ object frmMain: TfrmMain
     end
   end
   object odiagDbDir: TOpenDialog
-    Left = 244
-    Top = 53
+    Left = 484
+    Top = 21
+  end
+  object ADOTable: TADOTable
+    Left = 428
+    Top = 21
+  end
+  object DataSource: TDataSource
+    DataSet = ADOTable
+    Left = 484
+    Top = 69
   end
 end
